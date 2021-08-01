@@ -7,6 +7,8 @@ Forked and modified from [schickling/dockerfiles -> postgres-backup-s3](https://
 
 ## Usage
 
+Docker images available at https://hub.docker.com/r/sanskarsharma/pg-backup-scheduler. Image tags correspond to the git tags.
+
 Docker:
 ```sh
 $ docker run -e AWS_ACCESS_KEY_ID=key -e AWS_SECRET_ACCESS_KEY=secret -e AWS_S3_BUCKET=my-bucket -e AWS_S3_BUCKET_PATH_PREFIX=backup -e AWS_S3_REGION=ap-south-1 -e POSTGRES_DATABASE=dbname -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_HOST=localhost -e POSTGRES_PORT=5432 sanskarsharma/pg-backup-scheduler:v0.1.0
