@@ -23,6 +23,6 @@ pg_dump $POSTGRES_HOST_OPTS $POSTGRES_DATABASE | gzip > dump.sql.gz
 
 echo "Uploading dump to $AWS_S3_BUCKET"
 
-aws-s3-uploader dump.sql.gz $AWS_S3_BUCKET_PATH_PREFIX/${POSTGRES_DATABASE}_$(date +"%Y-%m-%dT%H:%M:%SZ").sql.gz
+aws-s3-uploader dump.sql.gz $AWS_S3_BUCKET_PATH_PREFIX/$(date +"%Y-%m-%d")/${POSTGRES_DATABASE}_$(date +"%Y-%m-%dT%H:%M:%SZ").sql.gz
 
 echo "SQL backup uploaded successfully"
