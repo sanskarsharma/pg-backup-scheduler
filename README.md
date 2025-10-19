@@ -7,7 +7,7 @@ Forked and modified from [schickling/dockerfiles -> postgres-backup-s3](https://
 
 ## Usage
 
-Docker images available at https://hub.docker.com/r/sanskarsharma/pg-backup-scheduler. Image tags correspond to the git tags.
+Docker images available at https://github.com/sanskarsharma/pg-backup-scheduler/pkgs/container/pg-backup-scheduler. Image tags correspond to the git tags.
 
 Docker:
 ```sh
