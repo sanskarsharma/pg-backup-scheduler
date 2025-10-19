@@ -1,8 +1,8 @@
-FROM alpine:3.14
+FROM alpine:3.22
 LABEL maintainer="Sanskar Sharma <sanskar2996@gmail.com>"
 
 RUN apk update
-RUN apk add postgresql-client 
+RUN apk add --no-cache postgresql17-client 
 
 ADD install.sh install.sh
 RUN sh install.sh && rm install.sh

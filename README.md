@@ -23,18 +23,18 @@ postgres:
     POSTGRES_PASSWORD: password
 
 pg-backup-scheduler:
-  image: sanskarsharma/pg-backup-scheduler:v0.1.0
+  image: ghcr.io/sanskarsharma/pg-backup-scheduler:v0.4.8
   links:
     - postgres
   environment:
-    
+
     AWS_ACCESS_KEY_ID: key
     AWS_SECRET_ACCESS_KEY: secret
     AWS_S3_REGION: ap-south-1
     AWS_S3_BUCKET: bucketname
     AWS_S3_BUCKET_PATH_PREFIX: backup
 
-    POSTGRES_HOST: host
+    POSTGRES_HOST: postgres
     POSTGRES_PORT: 5432
     POSTGRES_DATABASE: dbname
     POSTGRES_USER: user
@@ -47,6 +47,45 @@ pg-backup-scheduler:
 
 ### Automatic Periodic Backups
 
-You can additionally set the `SCHEDULE` environment variable like `-e SCHEDULE="@daily"` to run the backup automatically.
+You can additionally set the `SCHEDULE` environment variable to run backups automatically using standard cron syntax.
 
-More information about the scheduling can be found [here](http://godoc.org/github.com/robfig/cron#hdr-Predefined_schedules).
+#### Scheduling Options
+
+**Special Schedules:**
+- `@hourly` - Run every hour at the beginning of the hour
+- `@daily` or `@midnight` - Run once a day at midnight
+- `@weekly` - Run once a week at midnight on Sunday
+- `@monthly` - Run once a month at midnight on the first day
+- `@yearly` or `@annually` - Run once a year at midnight on January 1st
+
+**Standard Cron Format:**
+```
+┌───────────── minute (0 - 59)
+│ ┌───────────── hour (0 - 23)
+│ │ ┌───────────── day of month (1 - 31)
+│ │ │ ┌───────────── month (1 - 12)
+│ │ │ │ ┌───────────── day of week (0 - 6) (Sunday to Saturday)
+│ │ │ │ │
+│ │ │ │ │
+* * * * *
+```
+
+**Examples:**
+- `* * * * *` - Every minute
+- `0 * * * *` - Every hour at minute 0
+- `*/15 * * * *` - Every 15 minutes
+- `0 2 * * *` - Every day at 2:00 AM
+- `0 0 * * 0` - Every Sunday at midnight
+- `30 3 1 * *` - At 3:30 AM on the first day of every month
+
+**Example Usage:**
+```sh
+# Run backup every hour
+docker run -e SCHEDULE="@hourly" ... sanskarsharma/pg-backup-scheduler:v0.1.0
+
+# Run backup every hour (alternative cron syntax)
+docker run -e SCHEDULE="0 * * * *" ... sanskarsharma/pg-backup-scheduler:v0.1.0
+
+# Run backup daily at 2 AM
+docker run -e SCHEDULE="0 2 * * *" ... sanskarsharma/pg-backup-scheduler:v0.1.0
+```
